@@ -2,11 +2,11 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>เกมจับคู่</title>
+  <title>เกมจับคู่ความทรงจำ</title>
   <style>
     body {
       font-family: 'Kanit', sans-serif;
-      background-color: #fff5f7;
+      background-color: #fff0f5;
       margin: 0;
       padding: 20px;
       text-align: center;
@@ -16,7 +16,7 @@
     }
     #game {
       display: grid;
-      grid-template-columns: repeat(4, 80px);
+      grid-template-columns: repeat(4, 100px);
       grid-gap: 15px;
       justify-content: center;
       margin-top: 20px;
@@ -24,22 +24,28 @@
     .card {
       background-color: #ffe6ec;
       border-radius: 12px;
-      width: 80px;
-      height: 80px;
+      width: 100px;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 2rem;
       cursor: pointer;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      transition: transform 0.3s;
+      overflow: hidden;
     }
-    .card.flipped {
-      background-color: #ffc0cb;
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+      border-radius: 12px;
+    }
+    .card.flipped img {
+      display: block;
     }
     .card.matched {
-      background-color: #ffd1dc;
-      cursor: default;
+      opacity: 0.6;
+      pointer-events: none;
     }
     #message {
       margin-top: 20px;
@@ -63,31 +69,30 @@
 </head>
 <body>
 
-  <h1>เกมจับคู่</h1>
+  <h1>เกมจับคู่ความทรงจำ</h1>
   <div id="game"></div>
   <div id="message"></div>
   <button onclick="startGame()">เริ่มใหม่</button>
 
   <script>
     const memoryItems = [
-  '0.png','0.png',
-  '1.png','1.png',
-  '2.png','2.png',
-  '3.png','3.png',
-  '4.png','4.png',
-  '5.png','5.png',
-  '6.png','6.png',
-  '7.png','7.png',
-  '8.png','8.png',
-  '9.png','9.png',
-  '11.png','11.png',
-  '12.png','12.png',
-  '13.png','13.png',
-  '14.png','14.png',
-  'image(1).png','image(1).png',
-  'image.png','image.png',
-  'screenshot.png','screenshot.png'
-];
+      '1.png','1.png',
+      '2.png','2.png',
+      '3.png','3.png',
+      '4.png','4.png',
+      '5.png','5.png',
+      '6.png','6.png',
+      '7.png','7.png',
+      '8.png','8.png',
+      '9.png','9.png',
+      '11.png','11.png',
+      '12.png','12.png',
+      '13.png','13.png',
+      '14.png','14.png',
+      'image.png','image.png',
+      'image (1).png','image (1).png',
+      'screenshot.png','screenshot.png'
+    ];
 
     let flippedCards = [];
     let matchedCount = 0;
@@ -99,23 +104,28 @@
       document.getElementById('message').textContent = '';
       matchedCount = 0;
 
-      shuffled.forEach((item, index) => {
+      shuffled.forEach((item) => {
         const card = document.createElement('div');
         card.classList.add('card');
         card.dataset.value = item;
-        card.dataset.index = index;
-        card.innerHTML = '';
-        card.addEventListener('click', handleCardClick);
+
+        const img = document.createElement('img');
+        img.src = `photo%20by%20Gluay/${item}`; // path รูปของคุณ
+        card.appendChild(img);
+
+        card.addEventListener('click', () => handleCardClick(card));
         game.appendChild(card);
       });
     }
 
-    function handleCardClick(e) {
-      const card = e.target;
-      if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) return;
+    function handleCardClick(card) {
+      if (
+        card.classList.contains('flipped') ||
+        card.classList.contains('matched') ||
+        flippedCards.length >= 2
+      ) return;
 
       card.classList.add('flipped');
-      card.innerHTML = `<img src="images/${card.dataset.value}" style="width: 100%; height: 100%; border-radius: 12px;">`;
       flippedCards.push(card);
 
       if (flippedCards.length === 2) {
@@ -127,14 +137,12 @@
           matchedCount += 2;
 
           if (matchedCount === memoryItems.length) {
-            document.getElementById('message').textContent = 'เย้! จับคู่ครบแล้ว เบบี๋เก่งมากกกก!';
+            document.getElementById('message').textContent = 'เย้! จับคู่ครบแล้วววว เบบี๋เก่งที่สุดเลย!';
           }
         } else {
           setTimeout(() => {
             first.classList.remove('flipped');
             second.classList.remove('flipped');
-            first.innerHTML = '';
-            second.innerHTML = '';
             flippedCards = [];
           }, 1000);
         }

@@ -69,7 +69,17 @@
   <button onclick="startGame()">เริ่มใหม่</button>
 
   <script>
-    const memoryItems = ['🌅','🌅','🍜','🍜','🎡','🎡','🎁','🎁','💬','💬','🎶','🎶','📷','📷','🧸','🧸'];
+    const memoryItems = [
+  'img1.jpg','img1.jpg',
+  'img2.jpg','img2.jpg',
+  'img3.jpg','img3.jpg',
+  'img4.jpg','img4.jpg',
+  'img5.jpg','img5.jpg',
+  'img6.jpg','img6.jpg',
+  'img7.jpg','img7.jpg',
+  'img8.jpg','img8.jpg'
+];
+
     let flippedCards = [];
     let matchedCount = 0;
 
@@ -108,7 +118,7 @@
           matchedCount += 2;
 
           if (matchedCount === memoryItems.length) {
-            document.getElementById('message').textContent = 'เย้! คุณจับคู่ครบแล้ว เบบี๋เก่งมากกกก!';
+            document.getElementById('message').textContent = 'เย้! จับคู่ครบแล้ว เบบี๋เก่งมากกกก!';
           }
         } else {
           setTimeout(() => {
